@@ -1,6 +1,4 @@
-This Application is Divided into 2 Components:
-1. terraform
-2. application
+This Application is Divided into 2 Components:  Terraform and Application
 
 1. **Terraform.**
 
@@ -48,10 +46,7 @@ b. **Dockerfile**
 **Command for Building Docker image** - docker build -f Dockerfile -t new-app .
 **Command for running the Docker container** - docker run -d -p 8081:8081 smallcase-app
 
-I have Tested that application using **curl localhost:8081/api/v1** and have got the desired output of randomstring.
-
-
-
+I have Tested that application using **curl localhost:8081/api/v1**  and **curl http://<EC2_PUBLIC_IP>:8081/api/v1** and have got the desired output of randomstring from the set of characters.
 
 
 
