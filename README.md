@@ -2,7 +2,7 @@ This Application is Divided into 2 Components:
 1. terraform
 2. application
 
-**Let's Start With Terraform.**
+1. **Terraform.**
 
 Terraform is IAC tool that help us to maintain and create infrastructure related to our services.
 In the Terraform section there are 6 files in total, each one has its own role.
@@ -27,7 +27,7 @@ e. **provider.tf** -  Here We are providing the detail and profile for the aws p
 
 f. **userdata.sh** - This is the file for userdata that will be used in the EC2 Server and will launch docker.
 
-**Next Part is application**
+2. **appliaction**
 
 In the application part we have app.py where we are creating a flash application that will generate a random value based on the set of the strings.
 In the application part we also have a Dockerfile that will be creating a docker container with application code and will expose it in the port 8081
