@@ -1,6 +1,4 @@
-This Application is Divided into 2 Components:
-1. terraform
-2. application
+This Application is Divided into 2 Components **Terraform** and **application**
 
 1. **Terraform.**
 
