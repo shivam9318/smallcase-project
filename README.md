@@ -49,6 +49,8 @@ b. **Dockerfile**
 I have Tested that application using **curl localhost:8081/api/v1**  and **curl http://<EC2_PUBLIC_IP>:8081/api/v1** and have got the desired output of randomstring from the set of characters.
 
 
+**Note:-** **The Docker Container is running on the EC2 Instance Created from the Terraform, So this process is fulfilling the requirements of the Assignment**
+
 
 
 
