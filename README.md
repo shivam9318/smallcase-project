@@ -1,80 +1,65 @@
-This project is divided into two main components:
+This Application is Divided into 2 Components:
+1. terraform
+2. application
 
-Terraform (Infrastructure as Code)
+1. **Terraform.**
 
-Application (Flask + Docker)
+Terraform is IAC tool that help us to maintain and create infrastructure related to our services.
+In the Terraform section there are 6 files in total, each one has its own role.
 
-🛠️ 1. Terraform
-Terraform is an IAC (Infrastructure as Code) tool that helps define, create, and manage infrastructure in a safe and repeatable way.
+a. **main.tf** file - In main.tf,  I have created few AWS services that were needed as a part of assignment,
+   - kms_key for ebs encryption
+   - security group with inbound and outbound rules defined
+   - AWS EC2 Instance with ebs volume attached with encryption
+   - We are also calling userdata.sh file for installing the necessary packages.
+   - A data source is also created to fetch latest ami based on the requirement that we have mentioned in the ami part, it will fetch the ami based on our filter
 
-In this project, the Terraform code is organized across 6 files — each serving a specific purpose.
+b. **variable.tf** file - In variable.tf , I have defined the variables for the resources that we are going to create, Here Variables are defined for the below mentioned resources.
+   - EC2
+   - Security Group(Egress,Ingress Rules)
+   - provider file also
 
-a. main.tf
-Defines the core AWS infrastructure:
+c. **terraform.tfvars** - This file contains the value that we have set in variable.tf, variable.tf has default value only if we do nott provide variable by any other method it will pick the default value
 
-KMS Key for encrypting EBS volumes
+d. **output.tf** - In output.tf we are returning the value of public IP of EC2 Instance
 
-Security Group with configurable inbound (ingress) and outbound (egress) rules
+e. **provider.tf** -  Here We are providing the detail and profile for the aws provider
 
-EC2 Instance with:
+f. **userdata.sh** - This is the file for userdata that will be used in the EC2 Server and will launch docker.
 
-Encrypted EBS volume attached
+2. **appliaction**
 
-Latest Amazon Linux 2 AMI (dynamically fetched via data block)
+In the application part we have app.py where we are creating a flash application that will generate a random value based on the set of the strings.
+In the application part we also have a Dockerfile that will be creating a docker container with application code and will expose it in the port 8081
 
-userdata.sh script to install Docker and prepare the instance
+a.**app.py**
+  - simple Flask application exposing one endpoint: GET /api/v1
+  - On each request, it returns a random word from:
+    ["Investments", "Smallcase", "Stocks", "buy-the-dip", "TickerTape"]
+  - Uses jsonify() for structured JSON responses
 
-b. variables.tf
-Declares all input variables used across the Terraform configuration. It includes:
+b. **Dockerfile**
+  - Uses Python 3.9 slim base image
+  - Creates a non-root user for security
+  - Installs required Python packages
+  - Copies app.py into the container
+  - Exposes the application on port 8081
 
-EC2 instance type
+**Command for Building Docker image** - docker build -f Dockerfile -t new-app .
+**Command for running the Docker container** - docker run -d -p 8081:8081 smallcase-app
 
-Security group ports and rules
+I have Tested that application using **curl localhost:8081/api/v1** and have got the desired output of randomstring.
 
-AWS region
 
-Key pair name
 
-c. terraform.tfvars
-Defines actual values for variables declared in variables.tf.
-If no value is provided elsewhere, Terraform uses these values unless defaults are set.
 
-d. outputs.tf
-Outputs the public IP address of the EC2 instance after deployment — useful for testing or SSH access.
 
-e. provider.tf
-Specifies the AWS provider configuration, including the region and (optionally) the credentials/profile.
 
-f. userdata.sh
-A startup script that:
 
-Installs Docker on the EC2 instance
 
-Enables and starts the Docker service
 
-Adds the default user to the Docker group
 
-🧩 2. Application
-The application is a lightweight Flask API, containerized using Docker. It randomly returns a string from a predefined list.
 
-a. app.py
-A simple Flask application exposing one endpoint: GET /api/v1
 
-On each request, it returns a random word from:
 
-["Investments", "Smallcase", "Stocks", "buy-the-dip", "TickerTape"]
-
-Uses jsonify() for structured JSON responses
-
-b. Dockerfile
-A secure and efficient Dockerfile that:
-
-Uses Python 3.9 slim base image
-
-Creates a non-root user for security
-
-Installs required Python packages
-
-Copies app.py into the container
-
-Exposes the application on port 8081
+  
